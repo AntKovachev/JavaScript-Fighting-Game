@@ -25,11 +25,11 @@ class Sprite
             },
             offset: offset,
             width: 100,
-
             height: 50,
         },
         this.color = color;
         this.isAttacking = false;
+        this.health = 100;
     }
 
     draw() {
@@ -121,6 +121,7 @@ const keys = {
 }
 
 function rectangularCollision({rectangle1, rectangle2}) {
+    //Here attacks actually do something
     return (
         //Check for collision on x-axis
         (rectangle1.attackBox.position.x + rectangle1.attackBox.width >= rectangle2.position.x && rectangle1.attackBox.position.x <= rectangle2.position.x + rectangle2.width) &&
@@ -160,12 +161,14 @@ function animate() {
     //Detect if player hit enemy
     if ((rectangularCollision({rectangle1: player, rectangle2: enemy}) && player.isAttacking)){
         player.isAttacking = false;
-        console.log('we hit him');
+        enemy.health -= 20;
+        document.querySelector('#enemyHealth').style.width = enemy.health + '%'; //Here % is added because this is how we subtract 20% per hit
     }
     //Detect if enemy hit player
     if ((rectangularCollision({rectangle1: enemy, rectangle2: player}) && enemy.isAttacking)){
         enemy.isAttacking = false;
-        console.log('enemy hit us');
+        player.health -= 20;
+        document.querySelector('#playerHealth').style.width = player.health + '%';
     }
 }
 
