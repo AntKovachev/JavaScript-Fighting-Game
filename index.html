@@ -17,15 +17,17 @@
                 <div id="playerHealth" style="position: absolute; background-color: blue; top: 0; right: 0; bottom: 0; width: 100%;"></div>
             </div>
             <!-- Timer -->
-            <div style="background-color: red; width: 100px; height: 100px; flex-shrink: 0;"></div>
+            <div id="timer" style="background-color: red; width: 100px; height: 100px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">10</div>
             <!-- Enemy Health -->
              <div style="position: relative; height: 30px; width: 100%;">
                  <div style="background-color: yellow; height: 30px;"></div>
                  <div id="enemyHealth" style="position: absolute; background-color: blue; top: 0; right: 0; bottom: 0; left: 0;"></div>
              </div>
         </div>
+        <!-- Game over text (p1 wins, p2 wins, tie) -->
+        <div id="gameOverStatus" style="position: absolute; color: white; align-items: center; justify-content: center; top: 0; left: 0; right: 0; bottom: 0; display: none;">
+        </div>
         <canvas>
-        
         </canvas>
     </div>
     <script src="script.js"></script>
