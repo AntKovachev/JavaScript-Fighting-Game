@@ -130,6 +130,46 @@ function rectangularCollision({rectangle1, rectangle2}) {
     )
 }
 
+const gameStatuses = {
+    playerWins: 'Player wins',
+    enemyWins: 'Enemy Wins',
+    tie: 'Tie'
+}
+
+function determineWinner({player, enemy, timerId}) {
+    //Stop timer if any of the players win
+    clearTimeout(timerId);
+    
+    document.querySelector('#gameOverStatus').style.display = 'flex';
+    
+    if (enemy.health > player.health) {
+        document.querySelector('#gameOverStatus').innerHTML = gameStatuses.enemyWins;
+    }
+    if (enemy.health < player.health) {
+        document.querySelector('#gameOverStatus').innerHTML = gameStatuses.playerWins;
+    }
+    if (enemy.health === player.health) {
+        document.querySelector('#gameOverStatus').innerHTML = gameStatuses.tie;
+    }
+}
+
+let timer = 10;
+let timerId = '';
+function decreaseTimer() {
+    //Timer number getting lower here
+
+    if (timer > 0) {
+        timerId = setTimeout(decreaseTimer, 1000)
+        timer--;
+        document.querySelector('#timer').innerHTML = timer;
+    }
+    if (timer === 0) {
+        determineWinner({player, enemy, timerId});
+    }
+}
+
+decreaseTimer();
+
 //Loop
 function animate() {
     window.requestAnimationFrame(animate);
@@ -169,6 +209,11 @@ function animate() {
         enemy.isAttacking = false;
         player.health -= 20;
         document.querySelector('#playerHealth').style.width = player.health + '%';
+    }
+    
+    //End game based on health
+    if (enemy.health <= 0 || player.health <= 0) {
+        determineWinner({player, enemy, timerId});
     }
 }
 
