@@ -86,7 +86,37 @@ const enemy = new Fighter({
         x: -50,
         y: 0
     },
-    color: 'blue'
+    color: 'blue',
+    imageSrc: './assets/kenji/Idle.png',
+    framesMax: 4,
+    scale: 2.5,
+    offset: {
+        x: 215,
+        y: 170
+    },
+    //Different animations are here
+    sprites: {
+        idle: {
+            imageSrc: './assets/kenji/Idle.png',
+            framesMax: 4,
+        },
+        run: {
+            imageSrc: './assets/kenji/Run.png',
+            framesMax: 8,
+        },
+        jump: {
+            imageSrc: './assets/kenji/Jump.png',
+            framesMax: 2,
+        },
+        fall: {
+            imageSrc: './assets/kenji/Fall.png',
+            framesMax: 2,
+        },
+        attack1: {
+            imageSrc: './assets/kenji/Attack1.png',
+            framesMax: 4,
+        }
+    }   
 })
 
 const keys = {
@@ -120,9 +150,10 @@ function animate() {
     background.update();
     shop.update();
     player.update();
-    // enemy.update();
+    enemy.update();
     //Player is not moving
     player.velocity.x = 0;
+    enemy.velocity.x = 0;
 
     //Player is moving
     if (keys.a.pressed && player.lastKey == 'a') {
@@ -150,8 +181,20 @@ function animate() {
     //Enemy is moving
     if (keys.arrowLeft.pressed && enemy.lastKey == 'ArrowLeft') {
         enemy.velocity.x = -5;
+        enemy.switchSprite('run');
     } else if (keys.arrowRight.pressed && enemy.lastKey == 'ArrowRight') {
         enemy.velocity.x = 5;
+        enemy.switchSprite('run');
+    } else {
+        enemy.switchSprite('idle');
+    }
+
+    // Enemy jumps
+    if (enemy.velocity.y < 0) {
+        enemy.switchSprite('jump');
+    //Player falls
+    } else if (enemy.velocity.y > 0){
+        enemy.switchSprite('fall');
     }
 
     //Detect if player hit enemy
