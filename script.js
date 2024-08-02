@@ -181,6 +181,10 @@ function animate() {
     c.fillRect(0, 0, canvas.width, canvas.height);
     background.update();
     shop.update();
+
+    c.fillStyle = 'rgba(255, 255, 255, 0.15)';
+    c.fillRect(0, 0, canvas.width, canvas.height);
+
     player.update();
     enemy.update();
     //Player is not moving
@@ -233,7 +237,9 @@ function animate() {
     if ((rectangularCollision({rectangle1: player, rectangle2: enemy}) && player.isAttacking && player.framesCurrent == 2)){
         enemy.takeHit();
         player.isAttacking = false;
-        document.querySelector('#enemyHealth').style.width = enemy.health + '%'; //Here % is added because this is how we subtract 20% per hit
+        gsap.to('#enemyHealth', {
+            width: enemy.health + '%'
+        });
     }
 
     //Detect if player misses enemy
@@ -245,7 +251,9 @@ function animate() {
     if ((rectangularCollision({rectangle1: enemy, rectangle2: player}) && enemy.isAttacking)){
         player.takeHit();
         enemy.isAttacking = false;
-        document.querySelector('#playerHealth').style.width = player.health + '%';
+        gsap.to('#playerHealth', {
+            width: player.health + '%',
+        })
     }
     
     //Detect if enemy misses player
